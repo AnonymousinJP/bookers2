@@ -1,0 +1,7 @@
+Homes#top
+<% flash.each do |message_type, message| %>
+    <%= content_tag :div, message, class: message_type %>
+<% end %>
+<h1>welcome to <i class="fa-solid fa-book"></i>Bookers !!</h1>
+<%= link_to"Log in", new_user_session_path %><br>
+<%= link_to"Sign up", new_user_registration_path %>
