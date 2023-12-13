@@ -13,6 +13,13 @@ Rails.application.routes.draw do
 
   get '/home/about'=>'homes#about', as: 'about'
 
+  #コメントといいね機能に関する記述
+  resources :books, only: [:new, :create, :index, :show, :destroy] do
+    resource :favorite, only: [:create, :destroy] #resource単数形になっている点に注意
+    resources :post_comments, only: [:create, :destroy]
+  end
+  resources :users, only: [:show, :edit, :update]
+
   #Home -> books/user_id
   #Users -> users/index
   #Books -> books/index

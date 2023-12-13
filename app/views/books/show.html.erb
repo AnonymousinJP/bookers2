@@ -59,6 +59,38 @@ Books#show
                     <td><%= link_to"Destroy", book_path(@books.id), method: :delete %></td>
                 <% end %>
 
+                <% if @books.favorited_by?(current_user) %>
+                    <p>
+                        <%= link_to book_favorite_path(@books), method: :delete do %>
+                            ♥<%= @books.favorites.count %>
+                        <% end %>
+                    </p>
+                <% else %>
+                    <p>
+                        <%= link_to book_favorite_path(@books), method: :post do %>
+                            ♡<%= @books.favorites.count %>
+                        <% end %>
+                    </p>
+                <% end %>
+
+                <div>
+                    <p><%= @books.post_comments.count %> comments</p>
+                    <% @books.post_comments.each do |post_comment| %>
+                        <p><%= image_tag post_comment.user.get_profile_image(100,100) %></p>
+                        <%= post_comment.user.name %>
+                        <%= post_comment.created_at.strftime('%Y/%m/%d') %><%= post_comment.comment %>
+                        <% if post_comment.user == current_user %>
+                            <%= link_to"delete", book_post_comment_path(post_comment.book, post_comment), method: :delete %>
+                        <% end %>
+                    <% end %>
+                </div>
+                <div>
+                    <%= form_with model: [@books, @post_comment] do |f| %>
+                        <%= f.text_area :comment, rows: '5', placeholder: "write here" %>
+                        <%= f.submit"post" %>
+                    <% end %>
+                </div>
+
                 <!-- 部分テンプレート化
                     <%= form_with model: @book_form do |f| %>
                         <h4>Title</h4>

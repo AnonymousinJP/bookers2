@@ -7,9 +7,12 @@ class User < ApplicationRecord
   validates :name, presence: true, uniqueness: true, length: {in: 2..20}
   validates :introduction, length: {maximum: 50}
 
-  has_many :books, dependent: :destroy
-  #ここの記述がないとundefined method `books'エラーが出る 
+  has_many :books, dependent: :destroy #ここの記述がないとundefined method `books'エラーが出る 
+  #has_many :post_comments, dependent: :destroy #コメントに関する記述
   has_one_attached :profile_image
+
+  has_many :post_comments, dependent: :destroy #コメントに関する記述
+  has_many :favorites, dependent: :destroy #いいね機能に関する記述
 
   def get_profile_image(width, height) #ここを忘れるとwrong number of arguments (given 2, expected 0)エラーが出る
     unless profile_image.attached?
